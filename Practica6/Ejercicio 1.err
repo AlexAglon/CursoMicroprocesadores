@@ -1,0 +1,4 @@
+Message[301] C:\PROGRAM FILES (X86)\MICROCHIP\MPASM SUITE\P16F877.INC 33 : MESSAGE: (Processor-header file mismatch.  Verify selected processor.)
+Warning[207] E:\PRACTICA6\EJERCICIO 1.ASM 4 : Found label after column 1. (VAL)
+Message[302] E:\PRACTICA6\EJERCICIO 1.ASM 14 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[305] E:\PRACTICA6\EJERCICIO 1.ASM 32 : Using default destination of 1 (file).

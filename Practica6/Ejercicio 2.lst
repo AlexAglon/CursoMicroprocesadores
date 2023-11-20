@@ -1,0 +1,30 @@
+MPASM  5.48                   EJERCICIO 2.ASM   11-1-2023  5:32:42         PAGE  1
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+Error[129]  : Expected (END)
+MPASM  5.48                   EJERCICIO 2.ASM   11-1-2023  5:32:42         PAGE  2
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+__16F877A                         00000001
+
+
+MEMORY USAGE MAP ('X' = Used,  '-' = Unused)
+
+
+All other memory blocks unused.
+
+Program Memory Words Used:     0
+Program Memory Words Free:  8192
+
+
+Errors   :     1
+Warnings :     0 reported,     0 suppressed
+Messages :     0 reported,     0 suppressed
+
+
