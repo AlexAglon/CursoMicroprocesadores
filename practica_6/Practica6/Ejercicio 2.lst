@@ -1,0 +1,542 @@
+MPASM  5.50                   EJERCICIO 2.ASM   11-20-2023  17:17:36         PAGE  1
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00001                 ;En las siguientes lineas se indica el procesador, las librerias 
+                      00002                 PROCESSOR 16F877                
+                      00003                 INCLUDE <P16F877.INC>
+                      00001         LIST
+                      00002 
+                      00003 ;==========================================================================
+                      00004 ;  MPASM PIC16F877 processor include
+                      00005 ; 
+                      00006 ;  (c) Copyright 1999-2013 Microchip Technology, All rights reserved
+                      00007 ;==========================================================================
+                      00008 
+                      00540         LIST
+                      00004 
+Warning[207]: Found label after column 1. (VAL)
+  00000020            00005                 VAL EQU H'20'     
+                      00006                 
+0000                  00007                 ORG 0                      
+0000   2805           00008                 GOTO INICIO               
+                      00009 
+0005                  00010                 ORG 5                   
+0005   0185           00011 INICIO: CLRF PORTA                      ; Limpiamos el puerto A
+0006   1683           00012         BSF STATUS, RP0         ; Colocamos RP0 en 1 y RP1 en 0 para movernos al banco 1
+0007   1303           00013                 BCF STATUS, RP1         
+0008   3000           00014                 MOVLW H'00'                     ; Cargamos el valor 0 en W 
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+0009   009F           00015                 MOVWF ADCON1            ; Cargamos los puertos A y E que se usan para operaciones analog
+                            icas y digitales (entrada/salida)
+000A   0188           00016                 CLRF PORTD                      ; Limpiamos el puerto D
+000B   1283           00017         BCF STATUS,RP0          ; Cambiamos al banco 0
+000C   30E9           00018         MOVLW B'11101001'       ; Configuracion para ADCON0 
+000D   009F           00019         MOVWF ADCON0            ; Configuramos para que podamos hacer nuestra conversion
+                      00020 
+000E   151F           00021 CICLO:  BSF ADCON0,2            ; Asignanamos el valor 1 al bit 2 de ADCON0
+000F   203C           00022         CALL RETARDO            ; Nos movemos a retardo
+                      00023 
+0010   191F           00024 ESPERA: BTFSC ADCON0,2          ; Pregunta si el bit 2 de ADCON0 es 0 lo que indica que la conversion se
+                             realizo con exito
+0011   2810           00025         GOTO ESPERA             ; Si no es 0 nos movemos a ESPERA
+0012   081E           00026         MOVF ADRESH,0           ; Si es 0 Movemos el contenido de ADRESH a  W
+Warning[202]: Argument out of range.  Least significant bits used.
+0013   3C30           00027         SUBLW 130H              ; Restamos 130 - W para saber si el voltaje es menor a 0
+0014   1803           00028         BTFSC STATUS,0          ; Pregunta si el bit Zero de status esta encendido
+0015   282A           00029         GOTO SALIDA0            ; Si es no, Salta a SALIDA0 lo que nos indica que es un valor menor a 0
+0016   081E           00030         MOVF ADRESH,0           ; Si es si, Movemos el contenido de ADRESH a W
+                      00031 
+                      00032                 ;Validando para 1
+Warning[202]: Argument out of range.  Least significant bits used.
+0017   3C65           00033         SUBLW 265H              ; Restamos 265 - W 
+0018   1803           00034         BTFSC STATUS,0          ; Pregunta si el bit Zero de status esta encendido
+0019   282D           00035         GOTO SALIDA1            ; si es no, Salta a SALIDA1 lo que no indica que es el valor es mayor a 
+                            0 pero menor a 2
+001A   081E           00036         MOVF ADRESH,0           ; Si es si Movemos el contenido de ADRESH a W (indica que el valor es ma
+                            s grande)
+MPASM  5.50                   EJERCICIO 2.ASM   11-20-2023  17:17:36         PAGE  2
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00037 
+                      00038                 ;Validando para 2
+Warning[202]: Argument out of range.  Least significant bits used.
+001B   3C98           00039         SUBLW 398H              ; Resta 398 - W 
+001C   1803           00040         BTFSC STATUS,0          ;Pregunta si el bit Zero de status esta encendido   
+001D   2830           00041         GOTO SALIDA2            ; si es no, Salta a SALIDA1 lo que no indica que es el valor es mayor a 
+                            1 pero menor a 3
+001E   081E           00042                 MOVF ADRESH,0           ; Si es si Movemos el contenido de ADRESH a W (indica que el val
+                            or es mas grande)
+                      00043 
+                      00044                 ;Validando para 3
+Warning[202]: Argument out of range.  Least significant bits used.
+001F   3CCA           00045         SUBLW 3CAH              ; Resta 3CAH - W (3/5 VCC = 332H)
+0020   1803           00046         BTFSC STATUS,0          ; Pregunta si el bit Zero de status esta encendido
+0021   2833           00047         GOTO SALIDA3            ;  si es no, Salta a SALIDA1 lo que no indica que es el valor es mayor a
+                             2 pero menor a 4
+0022   081E           00048                 MOVF ADRESH,0           ; Si es si Movemos el contenido de ADRESH a W (indica que el val
+                            or es mas grande)
+                      00049 
+                      00050 
+                      00051                 ;Validando para 4
+Warning[202]: Argument out of range.  Least significant bits used.
+0023   3CF7           00052         SUBLW H'3F7'            ; Resta 3F7 - W (VCC = 3FFH)
+0024   1803           00053         BTFSC STATUS,0          ; Pregunta si el bit Zero de status esta encendido
+0025   2836           00054         GOTO SALIDA4            ; si es no, Salta a SALIDA1 lo que no indica que es el valor es mayor a 
+                            3 pero menor a 5
+0026   081E           00055                 MOVF ADRESH,0           ; Si es si Movemos el contenido de ADRESH a W (indica que el val
+                            or es mas grande)
+                      00056 
+                      00057 
+                      00058                 ;Validando para 5
+Warning[202]: Argument out of range.  Least significant bits used.
+0027   3CFF           00059         SUBLW H'3FF'            ; Resta 3FFH - W
+0028   1803           00060         BTFSC STATUS,0          ; Pregunta si el bit Zero de status esta encendido
+0029   2839           00061         GOTO SALIDA5            ; si es no, Salta a SALIDA1 lo que no indica que es el valor es mayor a 
+                            4
+                      00062 
+                      00063 ;Para cada salida lo primero que haremos sera mover el valor del caso que corresponde 0 a 5 a W
+                      00064 ;posterior movemos al puertoD y regresamos a ciclo
+                      00065 
+002A   3000           00066 SALIDA0:        MOVLW H'0'              
+002B   0088           00067                 MOVWF PORTD   
+002C   280E           00068                 GOTO CICLO      
+                      00069 
+002D   3001           00070 SALIDA1:        MOVLW H'1'    
+002E   0088           00071                 MOVWF PORTD   
+002F   280E           00072                 GOTO CICLO                      
+                      00073 
+0030   3002           00074 SALIDA2:        MOVLW H'2'      
+0031   0088           00075                 MOVWF PORTD     
+0032   280E           00076                 GOTO CICLO              
+                      00077 
+0033   3003           00078 SALIDA3:        MOVLW H'3'    
+MPASM  5.50                   EJERCICIO 2.ASM   11-20-2023  17:17:36         PAGE  3
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+0034   0088           00079                 MOVWF PORTD     
+0035   280E           00080                 GOTO CICLO      
+                      00081                 
+0036   3004           00082 SALIDA4:        MOVLW H'4'  
+0037   0088           00083                 MOVWF PORTD     
+0038   280E           00084                 GOTO CICLO      
+                      00085                 
+0039   3005           00086 SALIDA5:        MOVLW H'5'      
+003A   0088           00087                 MOVWF PORTD   
+003B   280E           00088                 GOTO CICLO              
+                      00089 
+003C   3030           00090 RETARDO:        MOVLW H'30'             ; Cargamos el valor 30 en W 
+003D   00A0           00091                 MOVWF VAL               
+                      00092 
+Message[305]: Using default destination of 1 (file).
+003E   0BA0           00093 LOOP:   DECFSZ VAL                      ; Decrementa el valor de VAL hasta 0
+003F   283E           00094         GOTO LOOP                       ; Si aun no llegamos a 0 nos movemos a LOOP 
+0040   0008           00095         RETURN                          ; si VAL = 0, regresamos
+                      00096         END                                     
+MPASM  5.50                   EJERCICIO 2.ASM   11-20-2023  17:17:36         PAGE  4
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+ACKDT                             00000005
+ACKEN                             00000004
+ACKSTAT                           00000006
+ADCON0                            0000001F
+ADCON1                            0000009F
+ADCS0                             00000006
+ADCS1                             00000007
+ADDEN                             00000003
+ADFM                              00000007
+ADIE                              00000006
+ADIF                              00000006
+ADON                              00000000
+ADRESH                            0000001E
+ADRESL                            0000009E
+BCLIE                             00000003
+BCLIF                             00000003
+BF                                00000000
+BRGH                              00000002
+C                                 00000000
+CCP1CON                           00000017
+CCP1IE                            00000002
+CCP1IF                            00000002
+CCP1M0                            00000000
+CCP1M1                            00000001
+CCP1M2                            00000002
+CCP1M3                            00000003
+CCP1X                             00000005
+CCP1Y                             00000004
+CCP2CON                           0000001D
+CCP2IE                            00000000
+CCP2IF                            00000000
+CCP2M0                            00000000
+CCP2M1                            00000001
+CCP2M2                            00000002
+CCP2M3                            00000003
+CCP2X                             00000005
+CCP2Y                             00000004
+CCPR1                             00000015
+CCPR1H                            00000016
+CCPR1L                            00000015
+CCPR2                             0000001B
+CCPR2H                            0000001C
+CCPR2L                            0000001B
+CHS0                              00000003
+CHS1                              00000004
+CHS2                              00000005
+CICLO                             0000000E
+CKE                               00000006
+CKP                               00000004
+CREN                              00000004
+CSRC                              00000007
+D                                 00000005
+DATA_ADDRESS                      00000005
+MPASM  5.50                   EJERCICIO 2.ASM   11-20-2023  17:17:36         PAGE  5
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+DC                                00000001
+D_A                               00000005
+D_NOT_A                           00000005
+EEADR                             0000010D
+EEADRH                            0000010F
+EECON1                            0000018C
+EECON2                            0000018D
+EEDATA                            0000010C
+EEDATH                            0000010E
+EEIE                              00000004
+EEIF                              00000004
+EEPGD                             00000007
+ESPERA                            00000010
+F                                 00000001
+FERR                              00000002
+FSR                               00000004
+GCEN                              00000007
+GIE                               00000007
+GO                                00000002
+GO_DONE                           00000002
+GO_NOT_DONE                       00000002
+I2C_DATA                          00000005
+I2C_READ                          00000002
+I2C_START                         00000003
+I2C_STOP                          00000004
+IBF                               00000007
+IBOV                              00000005
+INDF                              00000000
+INICIO                            00000005
+INTCON                            0000000B
+INTE                              00000004
+INTEDG                            00000006
+INTF                              00000001
+IRP                               00000007
+LOOP                              0000003E
+NOT_A                             00000005
+NOT_ADDRESS                       00000005
+NOT_BO                            00000000
+NOT_BOR                           00000000
+NOT_DONE                          00000002
+NOT_PD                            00000003
+NOT_POR                           00000001
+NOT_RBPU                          00000007
+NOT_RC8                           00000006
+NOT_T1SYNC                        00000002
+NOT_TO                            00000004
+NOT_TX8                           00000006
+NOT_W                             00000002
+NOT_WRITE                         00000002
+OBF                               00000006
+OERR                              00000001
+OPTION_REG                        00000081
+P                                 00000004
+MPASM  5.50                   EJERCICIO 2.ASM   11-20-2023  17:17:36         PAGE  6
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+PCFG0                             00000000
+PCFG1                             00000001
+PCFG2                             00000002
+PCFG3                             00000003
+PCL                               00000002
+PCLATH                            0000000A
+PCON                              0000008E
+PEIE                              00000006
+PEN                               00000002
+PIE1                              0000008C
+PIE2                              0000008D
+PIR1                              0000000C
+PIR2                              0000000D
+PORTA                             00000005
+PORTB                             00000006
+PORTC                             00000007
+PORTD                             00000008
+PORTE                             00000009
+PR2                               00000092
+PS0                               00000000
+PS1                               00000001
+PS2                               00000002
+PSA                               00000003
+PSPIE                             00000007
+PSPIF                             00000007
+PSPMODE                           00000004
+R                                 00000002
+RA0                               00000000
+RA1                               00000001
+RA2                               00000002
+RA3                               00000003
+RA4                               00000004
+RA5                               00000005
+RB0                               00000000
+RB1                               00000001
+RB2                               00000002
+RB3                               00000003
+RB4                               00000004
+RB5                               00000005
+RB6                               00000006
+RB7                               00000007
+RBIE                              00000003
+RBIF                              00000000
+RC0                               00000000
+RC1                               00000001
+RC2                               00000002
+RC3                               00000003
+RC4                               00000004
+RC5                               00000005
+RC6                               00000006
+RC7                               00000007
+RC8_9                             00000006
+RC9                               00000006
+MPASM  5.50                   EJERCICIO 2.ASM   11-20-2023  17:17:36         PAGE  7
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+RCD8                              00000000
+RCEN                              00000003
+RCIE                              00000005
+RCIF                              00000005
+RCREG                             0000001A
+RCSTA                             00000018
+RD                                00000000
+RD0                               00000000
+RD1                               00000001
+RD2                               00000002
+RD3                               00000003
+RD4                               00000004
+RD5                               00000005
+RD6                               00000006
+RD7                               00000007
+RE0                               00000000
+RE1                               00000001
+RE2                               00000002
+READ_WRITE                        00000002
+RETARDO                           0000003C
+RP0                               00000005
+RP1                               00000006
+RSEN                              00000001
+RX9                               00000006
+RX9D                              00000000
+R_NOT_W                           00000002
+R_W                               00000002
+S                                 00000003
+SALIDA0                           0000002A
+SALIDA1                           0000002D
+SALIDA2                           00000030
+SALIDA3                           00000033
+SALIDA4                           00000036
+SALIDA5                           00000039
+SEN                               00000000
+SMP                               00000007
+SPBRG                             00000099
+SPEN                              00000007
+SREN                              00000005
+SSPADD                            00000093
+SSPBUF                            00000013
+SSPCON                            00000014
+SSPCON2                           00000091
+SSPEN                             00000005
+SSPIE                             00000003
+SSPIF                             00000003
+SSPM0                             00000000
+SSPM1                             00000001
+SSPM2                             00000002
+SSPM3                             00000003
+SSPOV                             00000006
+SSPSTAT                           00000094
+STATUS                            00000003
+MPASM  5.50                   EJERCICIO 2.ASM   11-20-2023  17:17:36         PAGE  8
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+SYNC                              00000004
+T0CS                              00000005
+T0IE                              00000005
+T0IF                              00000002
+T0SE                              00000004
+T1CKPS0                           00000004
+T1CKPS1                           00000005
+T1CON                             00000010
+T1INSYNC                          00000002
+T1OSCEN                           00000003
+T1SYNC                            00000002
+T2CKPS0                           00000000
+T2CKPS1                           00000001
+T2CON                             00000012
+TMR0                              00000001
+TMR0IE                            00000005
+TMR0IF                            00000002
+TMR1                              0000000E
+TMR1CS                            00000001
+TMR1H                             0000000F
+TMR1IE                            00000000
+TMR1IF                            00000000
+TMR1L                             0000000E
+TMR1ON                            00000000
+TMR2                              00000011
+TMR2IE                            00000001
+TMR2IF                            00000001
+TMR2ON                            00000002
+TOUTPS0                           00000003
+TOUTPS1                           00000004
+TOUTPS2                           00000005
+TOUTPS3                           00000006
+TRISA                             00000085
+TRISA0                            00000000
+TRISA1                            00000001
+TRISA2                            00000002
+TRISA3                            00000003
+TRISA4                            00000004
+TRISA5                            00000005
+TRISB                             00000086
+TRISB0                            00000000
+TRISB1                            00000001
+TRISB2                            00000002
+TRISB3                            00000003
+TRISB4                            00000004
+TRISB5                            00000005
+TRISB6                            00000006
+TRISB7                            00000007
+TRISC                             00000087
+TRISC0                            00000000
+TRISC1                            00000001
+TRISC2                            00000002
+TRISC3                            00000003
+MPASM  5.50                   EJERCICIO 2.ASM   11-20-2023  17:17:36         PAGE  9
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+TRISC4                            00000004
+TRISC5                            00000005
+TRISC6                            00000006
+TRISC7                            00000007
+TRISD                             00000088
+TRISD0                            00000000
+TRISD1                            00000001
+TRISD2                            00000002
+TRISD3                            00000003
+TRISD4                            00000004
+TRISD5                            00000005
+TRISD6                            00000006
+TRISD7                            00000007
+TRISE                             00000089
+TRISE0                            00000000
+TRISE1                            00000001
+TRISE2                            00000002
+TRMT                              00000001
+TX8_9                             00000006
+TX9                               00000006
+TX9D                              00000000
+TXD8                              00000000
+TXEN                              00000005
+TXIE                              00000004
+TXIF                              00000004
+TXREG                             00000019
+TXSTA                             00000098
+UA                                00000001
+VAL                               00000020
+W                                 00000000
+WCOL                              00000007
+WR                                00000001
+WREN                              00000002
+WRERR                             00000003
+Z                                 00000002
+_BODEN_OFF                        00003FBF
+_BODEN_ON                         00003FFF
+_BOREN_OFF                        00003FBF
+_BOREN_ON                         00003FFF
+_CONFIG                           00002007
+_CPD_OFF                          00003FFF
+_CPD_ON                           00003EFF
+_CP_ALL                           00000FCF
+_CP_HALF                          00001FDF
+_CP_OFF                           00003FFF
+_CP_UPPER_256                     00002FEF
+_DEBUG_OFF                        00003FFF
+_DEBUG_ON                         000037FF
+_DEVID1                           00002006
+_FOSC_EXTRC                       00003FFF
+_FOSC_HS                          00003FFE
+_FOSC_LP                          00003FFC
+_FOSC_XT                          00003FFD
+MPASM  5.50                   EJERCICIO 2.ASM   11-20-2023  17:17:36         PAGE 10
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+_HS_OSC                           00003FFE
+_IDLOC0                           00002000
+_IDLOC1                           00002001
+_IDLOC2                           00002002
+_IDLOC3                           00002003
+_LP_OSC                           00003FFC
+_LVP_OFF                          00003F7F
+_LVP_ON                           00003FFF
+_PWRTE_OFF                        00003FFF
+_PWRTE_ON                         00003FF7
+_RC_OSC                           00003FFF
+_WDTE_OFF                         00003FFB
+_WDTE_ON                          00003FFF
+_WDT_OFF                          00003FFB
+_WDT_ON                           00003FFF
+_WRT_ENABLE_OFF                   00003DFF
+_WRT_ENABLE_ON                    00003FFF
+_WRT_OFF                          00003DFF
+_WRT_ON                           00003FFF
+_XT_OSC                           00003FFD
+__16F877                          00000001
+
+
+MEMORY USAGE MAP ('X' = Used,  '-' = Unused)
+
+0000 : X----XXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
+0040 : X--------------- ---------------- ---------------- ----------------
+
+All other memory blocks unused.
+
+Program Memory Words Used:    61
+Program Memory Words Free:  8131
+
+
+Errors   :     0
+Warnings :     7 reported,     0 suppressed
+Messages :     2 reported,     0 suppressed
+
+

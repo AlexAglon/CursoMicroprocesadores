@@ -1,0 +1,62 @@
+MPLINK 4.48, Linker
+Linker Map File - Created Mon Nov 20 17:53:08 2023
+
+                                 Section Info
+                  Section       Type    Address   Location Size(Bytes)
+                ---------  ---------  ---------  ---------  ---------
+                   .org_0       code   0x000000    program   0x000000
+                   .org_1       code   0x000000    program   0x000002
+                   .org_2       code   0x000005    program   0x000096
+
+
+
+                              Program Memory Usage 
+                               Start         End      
+                           ---------   ---------      
+                            0x000000    0x000000      
+                            0x000005    0x00004f      
+            76 out of 8454 program addresses used, program memory utilization is 0%
+
+
+
+                              Symbols - Sorted by Name
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                    ASIG1   0x000036    program     static C:\Users\PC\Documents\CursoMicroprocesadores\practica_6alt\Practica6\Ejercicio 3.asm
+                    ASIG2   0x000039    program     static C:\Users\PC\Documents\CursoMicroprocesadores\practica_6alt\Practica6\Ejercicio 3.asm
+                    ASIG3   0x00003c    program     static C:\Users\PC\Documents\CursoMicroprocesadores\practica_6alt\Practica6\Ejercicio 3.asm
+                     Comp   0x000021    program     static C:\Users\PC\Documents\CursoMicroprocesadores\practica_6alt\Practica6\Ejercicio 3.asm
+                      DOS   0x000047    program     static C:\Users\PC\Documents\CursoMicroprocesadores\practica_6alt\Practica6\Ejercicio 3.asm
+                       E1   0x00000f    program     static C:\Users\PC\Documents\CursoMicroprocesadores\practica_6alt\Practica6\Ejercicio 3.asm
+                       E2   0x000015    program     static C:\Users\PC\Documents\CursoMicroprocesadores\practica_6alt\Practica6\Ejercicio 3.asm
+                       E3   0x00001b    program     static C:\Users\PC\Documents\CursoMicroprocesadores\practica_6alt\Practica6\Ejercicio 3.asm
+                   ESPERA   0x00003f    program     static C:\Users\PC\Documents\CursoMicroprocesadores\practica_6alt\Practica6\Ejercicio 3.asm
+                   INICIO   0x000005    program     static C:\Users\PC\Documents\CursoMicroprocesadores\practica_6alt\Practica6\Ejercicio 3.asm
+                  MAYOR_1   0x000026    program     static C:\Users\PC\Documents\CursoMicroprocesadores\practica_6alt\Practica6\Ejercicio 3.asm
+                  MAYOR_2   0x00002e    program     static C:\Users\PC\Documents\CursoMicroprocesadores\practica_6alt\Practica6\Ejercicio 3.asm
+                  RETARDO   0x000043    program     static C:\Users\PC\Documents\CursoMicroprocesadores\practica_6alt\Practica6\Ejercicio 3.asm
+                     TRES   0x000045    program     static C:\Users\PC\Documents\CursoMicroprocesadores\practica_6alt\Practica6\Ejercicio 3.asm
+                      UNO   0x000049    program     static C:\Users\PC\Documents\CursoMicroprocesadores\practica_6alt\Practica6\Ejercicio 3.asm
+
+
+
+                              Symbols - Sorted by Address
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                   INICIO   0x000005    program     static C:\Users\PC\Documents\CursoMicroprocesadores\practica_6alt\Practica6\Ejercicio 3.asm
+                       E1   0x00000f    program     static C:\Users\PC\Documents\CursoMicroprocesadores\practica_6alt\Practica6\Ejercicio 3.asm
+                       E2   0x000015    program     static C:\Users\PC\Documents\CursoMicroprocesadores\practica_6alt\Practica6\Ejercicio 3.asm
+                       E3   0x00001b    program     static C:\Users\PC\Documents\CursoMicroprocesadores\practica_6alt\Practica6\Ejercicio 3.asm
+                     Comp   0x000021    program     static C:\Users\PC\Documents\CursoMicroprocesadores\practica_6alt\Practica6\Ejercicio 3.asm
+                  MAYOR_1   0x000026    program     static C:\Users\PC\Documents\CursoMicroprocesadores\practica_6alt\Practica6\Ejercicio 3.asm
+                  MAYOR_2   0x00002e    program     static C:\Users\PC\Documents\CursoMicroprocesadores\practica_6alt\Practica6\Ejercicio 3.asm
+                    ASIG1   0x000036    program     static C:\Users\PC\Documents\CursoMicroprocesadores\practica_6alt\Practica6\Ejercicio 3.asm
+                    ASIG2   0x000039    program     static C:\Users\PC\Documents\CursoMicroprocesadores\practica_6alt\Practica6\Ejercicio 3.asm
+                    ASIG3   0x00003c    program     static C:\Users\PC\Documents\CursoMicroprocesadores\practica_6alt\Practica6\Ejercicio 3.asm
+                   ESPERA   0x00003f    program     static C:\Users\PC\Documents\CursoMicroprocesadores\practica_6alt\Practica6\Ejercicio 3.asm
+                  RETARDO   0x000043    program     static C:\Users\PC\Documents\CursoMicroprocesadores\practica_6alt\Practica6\Ejercicio 3.asm
+                     TRES   0x000045    program     static C:\Users\PC\Documents\CursoMicroprocesadores\practica_6alt\Practica6\Ejercicio 3.asm
+                      DOS   0x000047    program     static C:\Users\PC\Documents\CursoMicroprocesadores\practica_6alt\Practica6\Ejercicio 3.asm
+                      UNO   0x000049    program     static C:\Users\PC\Documents\CursoMicroprocesadores\practica_6alt\Practica6\Ejercicio 3.asm
+
+
